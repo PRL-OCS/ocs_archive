@@ -44,7 +44,7 @@ class HeaderData:
         """Check that the values for the provided headers are set."""
         headers = self.get_headers()
         empty_values = [None, '']
-        values = [headers.get(key) for key in keys]
+        values = [headers.get(key) for key in keys] 
         return all([value not in empty_values for value in values])
 
     def get_related_frame_keys(self):
@@ -66,7 +66,7 @@ class HeaderData:
         return self.get_headers().get(settings.OBSERVATION_DATE_KEY)
 
     def get_proposal_id(self):
-        return self.get_headers().get(settings.PROPOSAL_ID_KEY, '')
+        return self.get_headers().get(settings.PROPOSAL_ID_KEY, 'PRLOPS')
 
     def get_configuration_type(self):
         return self.get_headers().get(settings.CONFIGURATION_TYPE_KEY, '')
