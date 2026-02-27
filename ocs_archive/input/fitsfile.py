@@ -67,16 +67,23 @@ class FitsFile(DataFile):
 
     def _create_header_data(self, file_metadata: dict):
         if self._is_valid_fits():
-            # Define default fallbacks for required headers
+            # Define default fallbacks for required and optional headers
+            # Note: SITEID must be max 3 chars, TELID must be max 4 chars per Django Frame model constraints
             default_headers = {
                 'PROPID': 'prlops',
-                'DATE-OBS': '1970-01-01T00:00:00',
-                'DAY-OBS': '19700101',
-                'INSTRUME': 'PARAS2',
-                'SITEID': 'MIRO PRL',
+                'DATE-OBS': '2004-06-02T00:00:00',
+                'DAY-OBS': '20040602',
+                'INSTRUME': 'PRL Instrument',
+                'SITEID': 'PRL',
                 'TELID': '1',
                 'OBSTYPE': 'BIAS',
                 'BLKUID': '1',
+                'RLEVEL': 0,
+                'TRG NAME': 'OBJ',
+                'EXPTIME': 1.0,
+                'FILTER': 'Clear',
+                'L1PUBDAT': '2005-01-01T00:00:00',
+                'REQNUM': 1,
             }
             # Loop through each HDU and use the first header that passes validation as the dict representation
             with self.get_fits() as fits_file:
@@ -86,10 +93,10 @@ class FitsFile(DataFile):
                         if file_metadata:
                             fits_dict.update(file_metadata)
                         
-                        # Add default headers for any missing required headers
-                        for req_header in self.required_headers:
-                            if req_header not in fits_dict and req_header in default_headers:
-                                fits_dict[req_header] = default_headers[req_header]
+                        # Add default headers for any missing headers to ensure complete FITS dictionary mapping
+                        for key, default_val in default_headers.items():
+                            if key not in fits_dict or fits_dict[key] == '':
+                                fits_dict[key] = default_val
 
                         if self._is_valid_file_metadata(fits_dict):
                             self.header_data = HeaderData(fits_dict)
