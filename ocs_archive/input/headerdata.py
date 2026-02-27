@@ -70,7 +70,10 @@ class HeaderData:
         return self.get_headers().get(settings.PROPOSAL_ID_KEY, 'PRLOPS')
 
     def get_configuration_type(self):
-        return self.get_headers().get(settings.CONFIGURATION_TYPE_KEY, '')
+        val = self.get_headers().get(settings.CONFIGURATION_TYPE_KEY, '')
+        if not val or not str(val).strip():
+            return 'BIAS'
+        return val
 
     def get_exposure_time(self):
         return self.get_headers().get(settings.EXPOSURE_TIME_KEY)
