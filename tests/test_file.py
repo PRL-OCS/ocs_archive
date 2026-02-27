@@ -16,6 +16,10 @@ class TestFile(unittest.TestCase):
         self.assertEqual('coj0m405-kb84-20160325-0095-e00', file2.basename)
         self.assertEqual('.fits.fz', file2.extension)
 
+        file3 = EmptyFile('/archive/coj/kb84/20160325/raw/coj0m405-kb84-20160325-0095-e00.fits.gz')
+        self.assertEqual('coj0m405-kb84-20160325-0095-e00', file3.basename)
+        self.assertEqual('.fits.gz', file3.extension)
+
     def test_get_file_length(self):
         with io.BytesIO(b'1234567890') as fileobj:
             file = File(fileobj, 'some_fits.fits.fz')

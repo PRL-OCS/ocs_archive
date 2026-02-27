@@ -37,7 +37,8 @@ class HeaderData:
             'request_id': self.get_request_id(),
             'related_frame_filenames': list(self.get_related_frames().values()),
             'frame_basename': self.get_frame_basename(),
-            'size': self.get_size()
+            'size': self.get_size(),
+            'fallback_error': self.get_fallback_error(),
         }
 
     def headers_are_set(self, keys: list):
@@ -112,3 +113,6 @@ class HeaderData:
     
     def get_size(self):
         return self.get_headers().get(settings.THUMBNAIL_SIZE_KEY, '')
+
+    def get_fallback_error(self):
+        return self.get_headers().get('fallback_error', '')

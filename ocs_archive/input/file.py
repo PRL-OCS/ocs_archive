@@ -176,7 +176,7 @@ class DataFile:
                 # Finally, if none of these, make it proprietary
                 else:
                     # This should be proprietary, set it to X days from observation date
-                    public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=settings.DAYS_UNTIL_PUBLIC)).isoformat()
+                    public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=float(settings.DAYS_UNTIL_PUBLIC))).isoformat()
             
             self.header_data.update_headers({settings.PUBLIC_DATE_KEY: public_date})
 

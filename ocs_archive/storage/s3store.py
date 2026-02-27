@@ -9,7 +9,7 @@ import boto3
 
 from ocs_archive.input.file import DataFile
 from ocs_archive.storage.filestore import FileStore, FileStoreConnectionError
-from ocs_archive.settings import settings
+from ocs_archive.settings import settings   
 
 logger = logging.getLogger('ocs_ingester')
 
@@ -36,15 +36,9 @@ class S3Store(FileStore):
             return boto3.client('s3', endpoint_url=settings.S3_ENDPOINT_URL, config=config)
 
     def get_storage_class(self, observation_date):
-        # if the observation was more than X days ago, this is someone
-        # uploading older data, and it can skip straight to STANDARD_IA
-        if observation_date < (datetime.utcnow() - timedelta(days=settings.S3_DAYS_TO_IA_STORAGE)):
-            return 'STANDARD_IA'
-
-        # everything else goes into the STANDARD storage class, and will
-        # be switched to STANDARD_IA by S3 Lifecycle Rules
+        # By default Minio doesn't support STANDARD_IA. To avoid InvalidStorageClass errors
+        # we return STANDARD. If AWS S3 is used, lifecycle rules can manage transitions.
         return 'STANDARD'
-
     def store_file(self, data_file: DataFile):
         storage_class = self.get_storage_class(parse(data_file.get_header_data().get_observation_date()))
         # start_time = datetime.utcnow()
