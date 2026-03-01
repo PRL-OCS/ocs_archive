@@ -6,6 +6,7 @@ from ocs_archive.settings import settings
 EXTENSION_TO_FILE_CLASS = {
     '.fits.fz': 'ocs_archive.input.lcofitsfile.LcoFitsFile',
     '.fits': 'ocs_archive.input.fitsfile.FitsFile',
+    '.fits.gz': 'ocs_archive.input.fitsfile.FitsFile',
     '.tar.gz': 'ocs_archive.input.tarwithfitsfile.TarWithFitsFile',
     '.pdf': 'ocs_archive.input.file.DataFile',
     '.jpg': 'ocs_archive.input.thumbnailfile.ThumbnailFile',
