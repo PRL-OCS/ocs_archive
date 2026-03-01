@@ -7,6 +7,7 @@ EXTENSION_TO_FILE_CLASS = {
     '.fits.fz': 'ocs_archive.input.lcofitsfile.LcoFitsFile',
     '.fits.gz': 'ocs_archive.input.fitsfile.FitsFile',
     '.fits': 'ocs_archive.input.fitsfile.FitsFile',
+    '.fits.gz': 'ocs_archive.input.fitsfile.FitsFile',
     '.tar.gz': 'ocs_archive.input.tarwithfitsfile.TarWithFitsFile',
     '.gz': 'ocs_archive.input.fitsfile.FitsFile',
     '.pdf': 'ocs_archive.input.file.DataFile',
