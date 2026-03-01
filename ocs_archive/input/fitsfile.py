@@ -53,8 +53,8 @@ class FitsFile(DataFile):
         yield self.open_file.get_from_start()
 
     def _check_extension(self):
-        if self.open_file.extension not in ['.fits', '.fits.fz', '.fits.gz']:
-            raise FileSpecificationException(f'Fits files must have extension .fits, .fits.fz, or .fits.gz, not {self.open_file.extension}')
+        if self.open_file.extension not in ['.fits', '.fits.fz', '.fits.gz', '.gz']:
+            raise FileSpecificationException(f'Fits files must have extension .fits, .fits.fz, .fits.gz, or .gz, not {self.open_file.extension}')
 
     def _is_valid_fits(self):
         try:

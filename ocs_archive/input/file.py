@@ -211,8 +211,17 @@ class DataFile:
             r = headers[settings.RADIUS_KEY]
 
             radius_in_degrees = Angle(r, units.arcsecond).deg
-            ra_in_degrees = Angle(ra, units.hourangle).deg
             dec = Angle(dec, units.deg).deg
+            
+            # RA can be stored as either hourangle (e.g. '07:01:49') or decimal degrees (e.g. 105.22) depending on the instrument
+            try:
+                if isinstance(ra, str) and (':' in ra or 'h' in ra):
+                    ra_in_degrees = Angle(ra, units.hourangle).deg
+                else:
+                    # Assume it's already in degrees if it's a float or plain string representation of a float
+                    ra_in_degrees = Angle(ra, units.deg).deg
+            except (ValueError, units.UnitTypeError):
+                ra_in_degrees = float(ra)
 
             c1 = (ra_in_degrees - radius_in_degrees, dec + radius_in_degrees)
             c2 = (ra_in_degrees + radius_in_degrees, dec + radius_in_degrees)
