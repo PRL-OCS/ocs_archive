@@ -79,7 +79,7 @@ class FitsFile(DataFile):
                 'OBSTYPE': 'BIAS',
                 'BLKUID': '1',
                 'RLEVEL': 0,
-                'TRG NAME': 'OBJ',
+                'TRG NAME': 'N/A',
                 'EXPTIME': 1.0,
                 'FILTER': 'Clear',
                 'L1PUBDAT': '2005-01-01T00:00:00',
