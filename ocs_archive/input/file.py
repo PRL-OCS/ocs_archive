@@ -149,11 +149,17 @@ class DataFile:
         Set observation day from the headers of date
         :return: Day in YYYYMMDD format
         """
-        if not self.header_data.get_observation_day():
+        observation_day = self.header_data.get_observation_day()
+        if not observation_day:
             observation_date = self.header_data.get_observation_date()
             if observation_date:
                 observation_day = observation_date.split('T')[0].replace('-', '')
                 self.header_data.update_headers({settings.OBSERVATION_DAY_KEY: observation_day})
+        else:
+            # Normalize existing observation_day to remove dashes
+            normalized_day = str(observation_day).replace('-', '')
+            if normalized_day != observation_day:
+                self.header_data.update_headers({settings.OBSERVATION_DAY_KEY: normalized_day})
 
     def _repair_public_date(self):
         # Set the public date based on observation date. Should be overriden if you have another method
@@ -276,7 +282,7 @@ class DataFile:
 
     def get_filestore_path(self):
         """Creates a path to use in the file store using the metadata of this file."""
-        datatype = 'raw' if self.header_data.get_reduction_level() == 0 else 'processed'
+        datatype = 'raw' if int(self.header_data.get_reduction_level()) == 0 else 'processed'
         # Default directory is site/instrument/obsday/datatype/
         return '/'.join((self.header_data.get_site_id(), self.header_data.get_instrument_id(), self.header_data.get_observation_day(), datatype, self.open_file.basename)) + self.open_file.extension
 
