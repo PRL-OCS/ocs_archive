@@ -165,23 +165,33 @@ class DataFile:
         # Set the public date based on observation date. Should be overriden if you have another method
         # of specifying the public date in your file type
         if not self.header_data.get_public_date():
-            # Check if the proposal is denoted as public or private in the observation portal
-            if any([tag in settings.PRIVATE_PROPOSAL_TAGS for tag in self.data_privacy_tags]):
-                public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=365 * 999)).isoformat()
-            elif any([tag in settings.PUBLIC_PROPOSAL_TAGS for tag in self.data_privacy_tags]):
+            # I. CALIBRATION CHECK (Highest Priority - override all tags)
+            # If it's a calibration frame or part of a public proposal list, it's immediately public regardless of other tags.
+            if (self.header_data.get_configuration_type() in settings.CALIBRATION_TYPES or
+                    (self.header_data.get_proposal_id() and any([prop in self.header_data.get_proposal_id() for prop in settings.PUBLIC_PROPOSALS]))):
                 public_date = self.header_data.get_observation_date()
+
+            # II. TAG-BASED CHECK (Portal Priority)
+            # Check if the proposal is explicitly denoted as strategic, private, or public in the observation portal
+            elif any([tag in settings.STRATEGIC_PROPOSAL_TAGS for tag in self.data_privacy_tags]):
+                # Strategic data becomes public after 999 years (effectively forever)
+                public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=365 * 999)).isoformat()
+            elif any([tag in settings.PRIVATE_PROPOSAL_TAGS for tag in self.data_privacy_tags]):
+                # Private data becomes public after 2 years (730 days)
+                public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=730)).isoformat()
+            elif any([tag in settings.PUBLIC_PROPOSAL_TAGS for tag in self.data_privacy_tags]):
+                # Explicitly public proposals
+                public_date = self.header_data.get_observation_date()
+
+            # III. FALLBACK (Hardcoded Lists & Default Science)
             else:
-                # If it's a calibration frame, it's immediately pubic
-                if (self.header_data.get_configuration_type() in settings.CALIBRATION_TYPES or
-                        (self.header_data.get_proposal_id() and any([prop in self.header_data.get_proposal_id() for prop in settings.PUBLIC_PROPOSALS]))):
-                    public_date = self.header_data.get_observation_date()
-                # If the proposal is set to private or the file type is a private file type, make it private forever
-                elif ((self.header_data.get_proposal_id() and any([prop in self.header_data.get_proposal_id() for prop in settings.PRIVATE_PROPOSALS])) or
+                # If the proposal is set to private or the file type is a private file type, make it proprietary for 2 years
+                if ((self.header_data.get_proposal_id() and any([prop in self.header_data.get_proposal_id() for prop in settings.PRIVATE_PROPOSALS])) or
                         any([chars in self.open_file.basename for chars in settings.PRIVATE_FILE_TYPES])):
-                    public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=365 * 999)).isoformat()
-                # Finally, if none of these, make it proprietary
+                    public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=730)).isoformat()
+                # Finally, if none of these, make it proprietary for the default duration (usually 730 days / 2 years)
                 else:
-                    # This should be proprietary, set it to X days from observation date
+                    # This should be proprietary science, set it to X days (default 730) from observation date
                     public_date = (parse(self.header_data.get_observation_date()) + timedelta(days=float(settings.DAYS_UNTIL_PUBLIC))).isoformat()
             
             self.header_data.update_headers({settings.PUBLIC_DATE_KEY: public_date})

@@ -70,20 +70,18 @@ class FitsFile(DataFile):
             # Define default fallbacks for required and optional headers
             # Note: SITEID must be max 3 chars, TELID must be max 4 chars per Django Frame model constraints
             default_headers = {
-                'PROPID': 'prlops',
+                'PROPID': 'prlobs',
                 'DATE-OBS': '2004-06-02T00:00:00',
                 'DAY-OBS': '20040602',
                 'INSTRUME': 'PRL Instrument',
                 'ORIGIN': 'PRL',
                 'TELESCOP': '1',
-                'OBSTYPE': 'BIAS',
-                'BLKUID': '1',
+                'OBSTYPE': 'UNKNOWN',
+                'BLKUID': 0,
                 'RLEVEL': 0,
                 'OBJECT': 'N/A',
                 'EXPOSURE': 1.0,
-                'FILTER': 'Clear',
-                'L1PUBDAT': '2005-01-01T00:00:00',
-                'REQNUM': 1,
+                'REQNUM': 0,
             }
             # Loop through each HDU and use the first header that passes validation as the dict representation
             with self.get_fits() as fits_file:

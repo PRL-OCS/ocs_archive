@@ -29,6 +29,7 @@ OBSERVATION_PORTAL_API_TOKEN = os.getenv('OBSERVATION_PORTAL_API_TOKEN')
 # Used to specify the proposal tags that denote whether the data from a proposal should be public or private
 PRIVATE_PROPOSAL_TAGS = get_tuple_from_environment('PRIVATE_PROPOSAL_TAGS', 'private,internal')
 PUBLIC_PROPOSAL_TAGS = get_tuple_from_environment('PUBLIC_PROPOSAL_TAGS', 'public')
+STRATEGIC_PROPOSAL_TAGS = get_tuple_from_environment('STRATEGIC_PROPOSAL_TAGS', 'strategic')
 
 # Used to override and update mapping of file extensions to DataFile subclass class dotpath
 # The expected format is a string literal representation of a dictionary, mapping extensions
@@ -57,7 +58,7 @@ CALIBRATION_TYPES = get_tuple_from_environment('CALIBRATION_TYPES', 'BIAS,DARK,S
 PUBLIC_PROPOSALS = get_tuple_from_environment('PUBLIC_PROPOSALS', 'EPO,calib,standard,pointing')
 
 # Days until a private proposals data becomes public, measured from observation date
-DAYS_UNTIL_PUBLIC = int(os.getenv('DAYS_UNTIL_PUBLIC', 365))
+DAYS_UNTIL_PUBLIC = int(os.getenv('DAYS_UNTIL_PUBLIC', 730))
 
 # Proposals including these strings will be considered private data (L1PUBDATE far out)
 PRIVATE_PROPOSALS = get_tuple_from_environment('PRIVATE_PROPOSALS', 'LCOEngineering')
