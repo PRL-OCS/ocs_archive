@@ -29,6 +29,7 @@ OBSERVATION_PORTAL_API_TOKEN = os.getenv('OBSERVATION_PORTAL_API_TOKEN')
 # Used to specify the proposal tags that denote whether the data from a proposal should be public or private
 PRIVATE_PROPOSAL_TAGS = get_tuple_from_environment('PRIVATE_PROPOSAL_TAGS', 'private,internal')
 PUBLIC_PROPOSAL_TAGS = get_tuple_from_environment('PUBLIC_PROPOSAL_TAGS', 'public')
+STRATEGIC_PROPOSAL_TAGS = get_tuple_from_environment('STRATEGIC_PROPOSAL_TAGS', 'strategic')
 
 # Used to override and update mapping of file extensions to DataFile subclass class dotpath
 # The expected format is a string literal representation of a dictionary, mapping extensions
@@ -42,7 +43,7 @@ IGNORED_CHARS = get_tuple_from_environment('IGNORED_CHARS', '-l00,tstnrs')
 HEADER_BLACKLIST = get_tuple_from_environment('HEADER_BLACKLIST', 'HISTORY,COMMENT')
 
 # Fits headers that must be present
-REQUIRED_HEADERS = get_tuple_from_environment('REQUIRED_HEADERS', 'PROPID,DATE-OBS,DAY-OBS,INSTRUME,ORIGIN,TELESCOP,OBSTYPE,BLKUID')
+REQUIRED_HEADERS = get_tuple_from_environment('REQUIRED_HEADERS', 'PROPID,DATE-OBS,DAY-OBS,INSTRUME,ORIGIN,TELESCOP,CONFTYPE,BLKUID')
 
 # Metadata that must be present when ingesting a thumbnail
 REQUIRED_THUMBNAIL_METADATA = get_tuple_from_environment('REQUIRED_THUMBNAIL_METADATA', 'frame_basename,size,DATE-OBS,DAY-OBS,INSTRUME,SITEID,TELID')
@@ -51,13 +52,13 @@ REQUIRED_THUMBNAIL_METADATA = get_tuple_from_environment('REQUIRED_THUMBNAIL_MET
 NULL_HEADER_VALUES = get_tuple_from_environment('NULL_HEADER_VALUES', 'N/A,UNSPECIFIED,UNKNOWN')
 
 # Calibration observation types (OBSTYPE)
-CALIBRATION_TYPES = get_tuple_from_environment('CALIBRATION_TYPES', 'BIAS,DARK,SKYFLAT,EXPERIMENTAL')
+CALIBRATION_TYPES = get_tuple_from_environment('CALIBRATION_TYPES', 'BIAS,DARK,SKYFLAT,EXPERIMENTAL, ARC, TUNG+DARK, DARK+TUNG, UAR+UAR,FP+UAR, FLAT, LAMP_FLAT, LAMP_NEON')
 
 # Proposals including these strings will be considered public data
 PUBLIC_PROPOSALS = get_tuple_from_environment('PUBLIC_PROPOSALS', 'EPO,calib,standard,pointing')
 
 # Days until a private proposals data becomes public, measured from observation date
-DAYS_UNTIL_PUBLIC = int(os.getenv('DAYS_UNTIL_PUBLIC', 365))
+DAYS_UNTIL_PUBLIC = int(os.getenv('DAYS_UNTIL_PUBLIC', 730))
 
 # Proposals including these strings will be considered private data (L1PUBDATE far out)
 PRIVATE_PROPOSALS = get_tuple_from_environment('PRIVATE_PROPOSALS', 'LCOEngineering')
