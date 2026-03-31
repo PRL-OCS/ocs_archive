@@ -43,7 +43,7 @@ IGNORED_CHARS = get_tuple_from_environment('IGNORED_CHARS', '-l00,tstnrs')
 HEADER_BLACKLIST = get_tuple_from_environment('HEADER_BLACKLIST', 'HISTORY,COMMENT')
 
 # Fits headers that must be present
-REQUIRED_HEADERS = get_tuple_from_environment('REQUIRED_HEADERS', 'PROPID,DATE-OBS,DAY-OBS,INSTRUME,ORIGIN,TELESCOP,OBSTYPE,BLKUID')
+REQUIRED_HEADERS = get_tuple_from_environment('REQUIRED_HEADERS', 'PROPID,DATE-OBS,DAY-OBS,INSTRUME,ORIGIN,TELESCOP,CONFTYPE,BLKUID')
 
 # Metadata that must be present when ingesting a thumbnail
 REQUIRED_THUMBNAIL_METADATA = get_tuple_from_environment('REQUIRED_THUMBNAIL_METADATA', 'frame_basename,size,DATE-OBS,DAY-OBS,INSTRUME,SITEID,TELID')
