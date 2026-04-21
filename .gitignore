@@ -72,4 +72,7 @@ docs/_build/
 
 # PyBuilder
 target/
-tests/
+tests/.env
+*.json
+*.md
+.env
