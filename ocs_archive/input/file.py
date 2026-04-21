@@ -127,7 +127,7 @@ class DataFile:
         These are tags defined in settings.PRIVATE_PROPOSAL_TAGS and settings.PUBLIC_PROPOSAL_TAGS
         """
         if self.proposal_tags is not None:
-            privacy_tags = [tag for tag in self.proposal_tags if tag in itertools.chain(settings.PRIVATE_PROPOSAL_TAGS, settings.PUBLIC_PROPOSAL_TAGS)]
+            privacy_tags = [tag for tag in self.proposal_tags if tag in itertools.chain(settings.PRIVATE_PROPOSAL_TAGS, settings.PUBLIC_PROPOSAL_TAGS, settings.STRATEGIC_PROPOSAL_TAGS)]
             return privacy_tags
         else:
             return []
@@ -164,7 +164,10 @@ class DataFile:
     def _repair_public_date(self):
         # Set the public date based on observation date. Should be overriden if you have another method
         # of specifying the public date in your file type
-        if not self.header_data.get_public_date():
+        public_date = self.header_data.get_public_date()
+        is_strategic = any([tag in settings.STRATEGIC_PROPOSAL_TAGS for tag in self.data_privacy_tags])
+
+        if not public_date or is_strategic:
             # I. CALIBRATION CHECK (Highest Priority - override all tags)
             # If it's a calibration frame or part of a public proposal list, it's immediately public regardless of other tags.
             if (self.header_data.get_configuration_type() in settings.CALIBRATION_TYPES or

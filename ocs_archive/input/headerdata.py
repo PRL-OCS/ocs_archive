@@ -73,7 +73,7 @@ class HeaderData:
         val = self.get_headers().get(settings.CONFIGURATION_TYPE_KEY, '')
         if not val or not str(val).strip():
             return 'BIAS'
-        return val
+        return str(val).strip().upper()
 
     def get_exposure_time(self):
         return self.get_headers().get(settings.EXPOSURE_TIME_KEY)

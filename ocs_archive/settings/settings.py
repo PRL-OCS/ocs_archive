@@ -52,7 +52,7 @@ REQUIRED_THUMBNAIL_METADATA = get_tuple_from_environment('REQUIRED_THUMBNAIL_MET
 NULL_HEADER_VALUES = get_tuple_from_environment('NULL_HEADER_VALUES', 'N/A,UNSPECIFIED,UNKNOWN')
 
 # Calibration observation types (OBSTYPE)
-CALIBRATION_TYPES = get_tuple_from_environment('CALIBRATION_TYPES', 'BIAS,DARK,SKYFLAT,EXPERIMENTAL,ARC,TUNG+DARK,DARK+TUNG,UAR+UAR,FP+UAR,FLAT,LAMP_FLAT,LAMP_NEON')
+CALIBRATION_TYPES = get_tuple_from_environment('CALIBRATION_TYPES', 'BIAS,DARK,SKYFLAT,EXPERIMENTAL,ARC,TUNG+DARK,DARK+TUNG,dark+tung,tung+dark,UAR+UAR,FP+UAR,FLAT,LAMP_FLAT,LAMP_NEON')
 
 # Proposals including these strings will be considered public data
 PUBLIC_PROPOSALS = get_tuple_from_environment('PUBLIC_PROPOSALS', 'EPO,calib,standard,pointing')
