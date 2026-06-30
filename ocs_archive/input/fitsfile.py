@@ -75,6 +75,7 @@ class FitsFile(DataFile):
                 'DAY-OBS': '20040602',
                 'INSTRUME': 'PRL Instrument',
                 'ORIGIN': 'PRL',
+                'SITECODE': 'S01',
                 'TELESCOP': '1',
                 'OBSTYPE': 'UNKNOWN',
                 'BLKUID': 0,
